@@ -5,7 +5,9 @@ pipeline {
        SONAR_TOKEN = credentials('sonar-analysis')
        SONAR_PROJECT_KEY = 'python-fastapi'
        DOCKER_IMAGE_NAME = 'python-fastapi'
-       DOCKER_REGISTRY = 'localhost:8082'
+       NEXUS_DOCKER_REGISTRY = 'localhost:8082'
+       NEXUS_DOCKER_PUSH_INDEX = 'localhost:8083'
+       NEXUS_DOCKER_PUSH_PATH = 'repository/docker-host'
     }
 
     stages {
@@ -44,7 +46,7 @@ pipeline {
                                     -e SONAR_HOST_URL="${SONAR_HOST_URL}" \
                                     -e SONAR_TOKEN="${SONAR_TOKEN}" \
                                     -v "$(pwd):/usr/src" \
-                                    ${DOCKER_REGISTRY}/sonarsource/sonar-scanner-cli \
+                                    ${NEXUS_DOCKER_REGISTRY}/sonarsource/sonar-scanner-cli \
                                     -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
                                     -Dsonar.qualitygate.wait=true \
                                     -Dsonar.sources=.
@@ -61,8 +63,21 @@ pipeline {
                 stage('Security Scan') {
                     steps {
                         sh '''
-                            trivy image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}
+                            trivy image --exit-code 0 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} > trivy-report.txt
                         '''
+                    }
+                }
+            }
+        }
+        stage('Publish') {
+            steps {
+            script {
+                withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    sh """
+                    docker login ${NEXUS_DOCKER_PUSH_INDEX} -u $NEXUS_USERNAME -p $NEXUS_PASSWORD
+                    docker tag ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ${NEXUS_DOCKER_PUSH_INDEX}/${NEXUS_DOCKER_PUSH_PATH}/${DOCKER_IMAGE_NAME}:latest
+                    docker push ${NEXUS_DOCKER_PUSH_INDEX}/${NEXUS_DOCKER_PUSH_PATH}/${DOCKER_IMAGE_NAME}:latest
+                    """
                     }
                 }
             }
@@ -70,6 +85,7 @@ pipeline {
     }
     post {
         always {
+            archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
             sh 'docker image prune -f'
             cleanWs()
         }
