@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - fastapi-network
+
+  web:
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    networks:
+      - fastapi-network
+
+networks:
+  fastapi-network:
+
+volumes:
+  postgres_data:
