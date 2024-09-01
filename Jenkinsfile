@@ -5,6 +5,7 @@ pipeline {
        SONAR_TOKEN = credentials('sonar-analysis')
        SONAR_PROJECT_KEY = 'python-fastapi'
        DOCKER_IMAGE_NAME = 'python-fastapi'
+       DOCKER_REGISTRY = 'localhost:8082'
     }
 
     stages {
@@ -18,8 +19,8 @@ pipeline {
                 stage('Python Build') {
                     steps {
                         sh '''
-                        python -m venv .env
-                        source .env/bin/activate
+                        python3 -m venv .env
+                        . .env/bin/activate
                         pip install -r requirements.txt
                         '''
                     }
@@ -43,7 +44,7 @@ pipeline {
                                     -e SONAR_HOST_URL="${SONAR_HOST_URL}" \
                                     -e SONAR_TOKEN="${SONAR_TOKEN}" \
                                     -v "$(pwd):/usr/src" \
-                                    sonarsource/sonar-scanner-cli \
+                                    ${DOCKER_REGISTRY}/sonarsource/sonar-scanner-cli \
                                     -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
                                     -Dsonar.qualitygate.wait=true \
                                     -Dsonar.sources=.
@@ -60,7 +61,7 @@ pipeline {
                 stage('Security Scan') {
                     steps {
                         sh '''
-                            trivy image --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}
+                            trivy image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}
                         '''
                     }
                 }
