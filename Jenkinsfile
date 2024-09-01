@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Gitea PAT', url: 'http://10.0.0.22/damien/python-fastapi.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Gitea PAT', url: 'http://10.0.0.22/damien/python-fastapi.git']])
             }
         }
         stage('Build and Install') {
