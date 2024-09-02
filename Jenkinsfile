@@ -10,6 +10,10 @@ pipeline {
        NEXUS_DOCKER_PUSH_PATH = 'repository/docker-host'
     }
 
+    options {
+        disableConcurrentBuilds()
+    }
+
     stages {
         stage('Clone') {
             steps {
@@ -86,7 +90,6 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'trivy-report.txt', allowEmptyArchive: true
-            sh 'docker image prune -f'
             cleanWs()
         }
     }
