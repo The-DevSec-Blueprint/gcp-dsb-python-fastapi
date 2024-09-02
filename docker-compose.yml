@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    image: postgres:13
+    image: 10.0.0.22:8082/postgres:13
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -13,7 +13,7 @@ services:
       - fastapi-network
 
   web:
-    build: .
+    image: 10.0.0.22:8083/repository/docker-host/python-fastapi:latest
     ports:
       - "8000:80"
     depends_on:
