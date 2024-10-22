@@ -5,8 +5,8 @@ pipeline {
        SONAR_TOKEN = credentials('sonar-analysis')
        SONAR_PROJECT_KEY = 'python-fastapi'
        DOCKER_IMAGE_NAME = 'python-fastapi'
-       NEXUS_DOCKER_REGISTRY = 'localhost:8082'
-       NEXUS_DOCKER_PUSH_INDEX = 'localhost:8083'
+       NEXUS_DOCKER_REGISTRY = 'nexus.dsb-hub.local'
+       NEXUS_DOCKER_PUSH_INDEX = 'nexus.dsb-hub.local'
        NEXUS_DOCKER_PUSH_PATH = 'repository/docker-host'
     }
 
@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Gitea PAT', url: 'http://10.0.0.22/damien/python-fastapi.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Gitea PAT', url: 'https://dsb-hub.local/damien/python-fastapi.git']])
             }
         }
         stage('Build and Install') {
