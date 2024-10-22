@@ -1,13 +1,8 @@
 # Use an official Python runtime as a parent image
-FROM 10.0.0.22:8082/python:3.12.5-bullseye
+FROM nexus.dsb-hub.local/python:3.12.5-bullseye
 
 # Set the working directory in the container
 WORKDIR /app
-RUN mkdir -p /etc/pip && \
-    echo "[global]" > /etc/pip/pip.conf && \
-    echo "index = http://10.0.0.22:8081/repository/python-pypi-proxy/pypi" >> /etc/pip/pip.conf && \
-    echo "index-url = http://10.0.0.22:8081/repository/python-pypi-proxy/simple" >> /etc/pip/pip.conf && \
-    echo "trusted-host = 10.0.0.22:8081" >> /etc/pip/pip.conf
 
 # Install system dependencies if needed, 
 # not supported by Nexus unfortunately
