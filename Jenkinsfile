@@ -6,7 +6,7 @@ pipeline {
        SONAR_PROJECT_KEY = 'python-fastapi'
        DOCKER_IMAGE_NAME = 'python-fastapi'
        NEXUS_DOCKER_REGISTRY = 'nexus-dockerproxy.dsb-hub.local'
-       NEXUS_DOCKER_PUSH_INDEX = 'nexus-dockerhub.dsb-hub.local'
+       NEXUS_DOCKER_PUSH_INDEX = 'nexus-dockerhost.dsb-hub.local'
        NEXUS_DOCKER_PUSH_PATH = 'repository/docker-host'
     }
 
