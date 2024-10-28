@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM nexus.dsb-hub.local/python:3.12.5-bullseye
+FROM nexus-dockerproxy.dsb-hub.local/python:3.12.5-bullseye
 
 # Set the working directory in the container
 WORKDIR /app
