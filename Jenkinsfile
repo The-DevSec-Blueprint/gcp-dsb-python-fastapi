@@ -50,7 +50,7 @@ pipeline {
                                     -e SONAR_HOST_URL="${SONAR_HOST_URL}" \
                                     -e SONAR_TOKEN="${SONAR_TOKEN}" \
                                     -v "$(pwd):/usr/src" \
-                                    ${NEXUS_DOCKER_REGISTRY}/sonarsource/sonar-scanner-cli \
+                                    ${NEXUS_DOCKER_PUSH_INDEX}/${NEXUS_DOCKER_PUSH_PATH}/sonar-scanner-cli \
                                     -Dsonar.projectKey="${SONAR_PROJECT_KEY}" \
                                     -Dsonar.qualitygate.wait=true \
                                     -Dsonar.sources=.
