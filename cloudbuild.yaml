@@ -25,3 +25,9 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/fastapi-app'
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+artifacts:
+  objects:
+    location: 'gs://dsb-devsecops-lab-bucket'
+    paths: ['build/**']
