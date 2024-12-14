@@ -41,3 +41,10 @@ steps:
         --image gcr.io/$PROJECT_ID/my-app:latest \
         --region us-central1 \
         --platform managed
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+artifacts:
+  objects:
+  location: 'gs://dsb-devsecops-lab-bucket'
+  paths: ['build/**']  
+  
