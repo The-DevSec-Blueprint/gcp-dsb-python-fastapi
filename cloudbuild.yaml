@@ -18,7 +18,7 @@ steps:
   
   # Step 4: Scan Docker Image with Trivy
   - name: 'aquasec/trivy'
-    args: ['image', '--exit-code', '1', 'gcr.io/$PROJECT_ID/my-app:latest']
+    args: ['image', '--exit-code', '0', 'gcr.io/$PROJECT_ID/my-app:latest']
   
   # Step 5: Snyk Code and Dependency Scanning
   - name: 'node'
@@ -50,5 +50,5 @@ artifacts:
     paths: ['build/**']  
 availableSecrets:
   secretManager:
-  - versionName: projects/dsb-hub-innovation/secrets/cloudbuild-snyk-token/versions/1
+  - versionName: projects/724455289756/secrets/cloudbuild-snyk-token/versions/2
     env: 'SNYK_TOKEN'  

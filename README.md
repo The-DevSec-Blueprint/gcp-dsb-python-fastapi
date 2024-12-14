@@ -18,7 +18,7 @@ This project sets up a simple FastAPI application (with some vulnerabilites) wit
 ## Project Structure
 
 ```bash
-awesome-fastapi/
+gcp-python-fastapi/
 ├── Dockerfile
 ├── requirements.txt
 ├── main.py  # FastAPI app entry point
