@@ -1,0 +1,3 @@
+[main]
+
+ignore=tests,.env
