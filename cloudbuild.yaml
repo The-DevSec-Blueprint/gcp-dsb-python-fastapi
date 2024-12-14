@@ -28,7 +28,7 @@ steps:
       - '-c'
       - |
         npm install -g snyk
-        snyk auth $SNYK_TOKEN
+        snyk auth $$SNYK_TOKEN
         snyk test
         snyk code test      
   
