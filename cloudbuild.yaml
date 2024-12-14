@@ -23,13 +23,14 @@ steps:
   # Step 5: Snyk Code and Dependency Scanning
   - name: 'node'
     entrypoint: 'bash'
+    secretEsecretEnv: ['SNYK_TOKEN']    
     args:
       - '-c'
       - |
         npm install -g snyk
         snyk auth $SNYK_TOKEN
         snyk test
-        snyk code test
+        snyk code test      
   
   # Step 6: Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -47,4 +48,7 @@ artifacts:
   objects:
     location: 'gs://dsb-devsecops-lab-bucket'
     paths: ['build/**']  
-  
+availableSecrets:
+  secretManager:
+  - versionName: projects/dsb-hub-innovation/secrets/cloudbuild-snyk-token/versions/1
+    env: 'SNYK_TOKEN'  
