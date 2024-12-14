@@ -23,7 +23,7 @@ steps:
   # Step 5: Snyk Code and Dependency Scanning
   - name: 'node'
     entrypoint: 'bash'
-    secretEsecretEnv: ['SNYK_TOKEN']    
+    secretEnv: ['SNYK_TOKEN']    
     args:
       - '-c'
       - |
