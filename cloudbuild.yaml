@@ -47,7 +47,7 @@ options:
 artifacts:
   objects:
     location: 'gs://dsb-devsecops-lab-bucket'
-    paths: ['build/**']  
+    paths: ['*/**']  
 availableSecrets:
   secretManager:
   - versionName: projects/724455289756/secrets/cloudbuild-snyk-token/versions/2
