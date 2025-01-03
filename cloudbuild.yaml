@@ -38,14 +38,18 @@ steps:
     args:
       - "-c"
       - |
-        gcloud beta run services add-iam-policy-binding \
-        --region=us-central1 \
-        --member=allUsers \
-        --role=roles/run.invoker my-service
-        gcloud run deploy my-service \
+        gcloud run deploy gcp-python-fastapi-service \
         --image gcr.io/$PROJECT_ID/my-app:latest \
         --region us-central1 \
         --platform managed
+
+        gcloud run services add-iam-policy-binding \
+        gcp-python-fastapi-service \
+        --platform=managed \
+        --region=us-central1 \
+        --member="allUsers" \
+        --role="roles/run.invoker" \
+
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 artifacts:
