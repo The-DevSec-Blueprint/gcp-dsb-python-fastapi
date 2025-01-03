@@ -41,7 +41,8 @@ steps:
         gcloud run deploy my-service \
         --image gcr.io/$PROJECT_ID/my-app:latest \
         --region us-central1 \
-        --platform managed
+        --platform managed \
+        --allow-unauthenticated
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 artifacts:
